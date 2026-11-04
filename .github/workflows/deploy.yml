@@ -31,7 +31,7 @@ jobs:
         run: |
           mkdir _site
           cp -r index.html assets data _site/
-          if ls cv/*.pdf > /dev/null 2>&1; then mkdir -p _site/cv && cp cv/*.pdf _site/cv/; fi
+          if [ -f cv/curriculo-lucca-oliveira-silva.pdf ]; then mkdir -p _site/cv && cp cv/curriculo-lucca-oliveira-silva.pdf _site/cv/; fi
 
       - name: Configurar o Pages
         uses: actions/configure-pages@v5

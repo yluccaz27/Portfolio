@@ -71,6 +71,8 @@ Regras:
 
 Coloque o arquivo em `cv/curriculo-lucca-oliveira-silva.pdf`. Ele fica público, então use uma versão sem telefone e sem endereço. Enquanto o arquivo não existir, os botões de download ficam escondidos.
 
+Qualquer outro PDF em `cv/` é ignorado pelo git (`.gitignore`) e não vai para o site. Assim, um rascunho com dados pessoais não é publicado por engano.
+
 ## Deploy
 
 A cada push na branch `main`, o workflow `.github/workflows/deploy.yml`:
@@ -83,11 +85,14 @@ O workflow também pode ser rodado à mão em Actions → "Publicar no GitHub Pa
 
 ### Configuração única no GitHub
 
-1. Crie um repositório público chamado `yluccaz27.github.io`. Com esse nome, o site fica em `https://yluccaz27.github.io`. Com qualquer outro nome, ele fica em `https://yluccaz27.github.io/<nome-do-repo>/`, e o site funciona igual, porque todos os caminhos são relativos.
-2. No repositório, abra Settings → Pages e, em "Build and deployment" → Source, escolha **GitHub Actions**. Faça isso antes do primeiro push: sem essa opção, o primeiro deploy falha. Se isso acontecer, rode o workflow de novo em Actions.
+O repositório é [github.com/yluccaz27/Portfolio](https://github.com/yluccaz27/Portfolio), e o site fica em **https://yluccaz27.github.io/Portfolio/**. Todos os caminhos do site são relativos, então ele funciona nesse subcaminho sem nenhum ajuste.
+
+1. O repositório precisa ser público. No plano gratuito, o GitHub Pages não publica repositórios privados.
+2. Em Settings → Pages → "Build and deployment" → Source, escolha **GitHub Actions**. Faça isso antes do primeiro push: sem essa opção, o primeiro deploy falha. Se isso acontecer, rode o workflow de novo em Actions.
 3. Envie o código:
    ```bash
-   git remote add origin https://github.com/yluccaz27/yluccaz27.github.io.git
    git push -u origin main
    ```
 4. Abra a aba Actions e acompanhe o primeiro deploy. O endereço do site aparece no resumo do job.
+
+Para o site ficar na raiz (`https://yluccaz27.github.io`), renomeie o repositório para `yluccaz27.github.io` em Settings → General e atualize o remote com `git remote set-url origin https://github.com/yluccaz27/yluccaz27.github.io.git`.
