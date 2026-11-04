@@ -1,0 +1,95 @@
+{
+  "projetos": [
+    {
+      "id": "rpg-legends",
+      "nome": "RPG Legends",
+      "destaque": true,
+      "contexto": "Projeto acadêmico de Programação Orientada a Objetos",
+      "problema": "Trabalho da disciplina de Programação Orientada a Objetos: aplicar herança, encapsulamento e persistência relacional num sistema completo, com autenticação, API e banco de dados, em vez de exercícios isolados.",
+      "oQueFaz": "RPG de navegador com cadastro e login. O jogador cria um personagem entre 8 classes, enfrenta ondas de inimigos, sobe uma masmorra de 20 andares e usa loja, crafting e progresso idle. Todo o estado fica salvo em banco relacional e é restaurado a cada login.",
+      "stack": ["Python", "Flask", "Flask-SQLAlchemy", "Flask-Login", "Werkzeug", "SQLite", "PostgreSQL", "Gunicorn", "JavaScript"],
+      "decisoes": [
+        "Regras de jogo (combate, XP, loot, regiões e masmorra) ficam em `game_logic.py`, que não importa Flask. As rotas em `app.py` cuidam de requisição, sessão e banco, e chamam essas funções.",
+        "Backend com mais de 15 rotas REST que respondem em JSON para um front-end em JavaScript puro, que faz as chamadas com fetch.",
+        "As rotas da API conferem `current_user` e devolvem 401 em JSON quando não há sessão, em vez de usar `@login_required`, que redirecionaria a chamada para uma página de login. O front-end recebe um erro que consegue tratar.",
+        "Modelos ORM com relacionamentos 1:1 (usuário e personagem, personagem e esconderijo, com chave estrangeira única e `uselist=False`) e 1:N (personagem e equipamentos). Todos com `cascade=\"all, delete-orphan\"`: remover o usuário remove personagem, itens e construções.",
+        "Senhas guardadas como hash com Werkzeug (`set_password` e `check_password` no modelo `User`).",
+        "O banco vem da variável `DATABASE_URL`, com SQLite como padrão local. O app troca o prefixo `postgres://` por `postgresql://`, que o SQLAlchemy 1.4+ exige, e o deploy roda com Gunicorn via `Procfile`."
+      ],
+      "diagrama": {
+        "src": "assets/img/projetos/rpg-legends-er.svg",
+        "alt": "Modelo do banco do RPG Legends. User tem um Character (1:1). Character tem vários Equipment (1:N) e um BaseBuilding (1:1).",
+        "legenda": "Modelo do banco, com os campos principais. O diagrama completo está no README do repositório.",
+        "largura": 360,
+        "altura": 914
+      },
+      "comoRodar": "git clone https://github.com/yluccaz27/RPGAdventure.git\ncd RPGAdventure\npython -m venv .venv\n.venv\\Scripts\\activate        # Windows\nsource .venv/bin/activate     # Linux / macOS\npip install -r requirements.txt\npython app.py                 # abre em http://localhost:5000",
+      "aprendizados": [],
+      "proximosPassos": [],
+      "links": {
+        "repositorio": "https://github.com/yluccaz27/RPGAdventure",
+        "demo": ""
+      },
+      "imagens": []
+    },
+    {
+      "id": "mestre-de-rpg-ia",
+      "nome": "Mestre de RPG com IA",
+      "contexto": "Projeto pessoal, self-hosted",
+      "oQueFaz": "Aplicação web que atua como mestre de RPG, com memória de longo prazo da campanha via RAG e um LLM acessado por API.",
+      "stack": ["Python", "Flask", "ChromaDB", "OpenRouter", "Docker Compose", "Ubuntu"],
+      "decisoes": [
+        "Memória da campanha guardada em busca vetorial (ChromaDB) e usada como contexto para o LLM (RAG).",
+        "LLM acessado por API via OpenRouter.",
+        "Empacotada com Docker Compose e hospedada em servidor próprio com Ubuntu."
+      ],
+      "aprendizados": [
+        "Depurei a ordem de carregamento das variáveis de ambiente na integração.",
+        "Corrigi falhas do front-end diante de respostas nulas da API."
+      ],
+      "links": {
+        "repositorio": "",
+        "demo": ""
+      },
+      "avisoRepositorio": "Repositório privado por enquanto."
+    },
+    {
+      "id": "dungeon-loot-generator",
+      "nome": "Dungeon Loot Generator",
+      "contexto": "Projeto pessoal",
+      "oQueFaz": "Gerador de loot para RPG de mesa em linha de comando. Recebe raridade e atributo como argumentos e grava o item gerado em `loot.json`.",
+      "stack": ["Python", "POO", "argparse", "JSON"],
+      "decisoes": [
+        "Raridades e atributos definidos como `Enum`. O valor passado na linha de comando é convertido para o `Enum`, o que limita a entrada aos valores definidos.",
+        "`Armor` e `Weapon` herdam de uma classe base `Item`."
+      ],
+      "comoRodar": "git clone https://github.com/yluccaz27/Gerador-de-loots1.git\ncd Gerador-de-loots1\npython lootpy.py --raridade lendario --atributo vampirismo",
+      "links": {
+        "repositorio": "https://github.com/yluccaz27/Gerador-de-loots1"
+      }
+    },
+    {
+      "id": "pokerpg",
+      "nome": "PokeRPG",
+      "contexto": "Projeto de estudo",
+      "problema": "Feito para praticar orientação a objetos.",
+      "oQueFaz": "Simulador de batalhas Pokémon no terminal. O jogador escolhe um Pokémon e enfrenta um rival sorteado; a velocidade define quem ataca primeiro e o dano é multiplicado pela efetividade entre os tipos.",
+      "stack": ["Python", "POO"],
+      "decisoes": [
+        "Código dividido em módulos: `pokemons.py` (classes `Pokemon` e `Batalha`), `efetividades.py` (tabela de tipos) e `main.py` (loop principal)."
+      ],
+      "comoRodar": "git clone https://github.com/yluccaz27/PokeRPG.git\ncd PokeRPG\npython main.py",
+      "links": {
+        "repositorio": "https://github.com/yluccaz27/PokeRPG"
+      }
+    },
+    {
+      "id": "sge",
+      "nome": "SGE",
+      "contexto": "Trabalho acadêmico em equipe (Equipe 5)",
+      "oQueFaz": "Aplicativo Android em Java. Minha parte foi a tela de lista de presença.",
+      "stack": ["Java", "Android"],
+      "links": {}
+    }
+  ]
+}
