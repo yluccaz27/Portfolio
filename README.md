@@ -69,7 +69,7 @@ Regras:
 
 ## Currículo em PDF
 
-Coloque o arquivo em `cv/curriculo-lucca-oliveira-silva.pdf`. Ele fica público, então use uma versão sem telefone e sem endereço. Enquanto o arquivo não existir, os botões de download ficam escondidos.
+Coloque o arquivo em `cv/curriculo-lucca-oliveira-silva.pdf`. Ele fica público para download, com tudo o que estiver no arquivo. Enquanto o arquivo não existir, os botões de download ficam escondidos.
 
 Qualquer outro PDF em `cv/` é ignorado pelo git (`.gitignore`) e não vai para o site. Assim, um rascunho com dados pessoais não é publicado por engano.
 

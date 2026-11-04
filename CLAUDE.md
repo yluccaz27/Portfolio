@@ -9,7 +9,7 @@ Público: um recrutador, que pode não ser técnico, precisa entender em 1 minut
 - Não invente números, métricas, resultados, tecnologias nem links. Sem dado, deixe de fora ou pergunte ao Lucca. Nada de tempo de resposta, usuários ou ganhos inventados.
 - Cada afirmação precisa ser verificável no currículo ou nos repositórios. Para decisões técnicas de um projeto, leia o código, não só o README: onde os dois divergem, vale o código.
 - Fundação Hemominas: nada de código, nome de sistema ou de tela, dados ou detalhes internos. Ela aparece só na experiência, em termos gerais ("sistema interno de gestão de processos jurídicos").
-- Não publique telefone nem endereço, nem no HTML nem no PDF em `cv/`.
+- Não publique telefone nem endereço no HTML. Exceção decidida pelo Lucca em 04/11/2026: o PDF em `cv/curriculo-lucca-oliveira-silva.pdf` é o currículo completo, com telefone, e pode ser publicado assim.
 - Proibido: frases de efeito ("apaixonado por tecnologia", "transformando ideias em código"), adjetivos vazios, emoji decorativo.
 - Texto curto e específico, em voz ativa e sentence case.
 
