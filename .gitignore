@@ -3,6 +3,7 @@
 Thumbs.db
 _site/
 
-# Só o PDF revisado (sem telefone e endereço) entra no repositório.
+# Só o currículo publicado (sem telefone e endereço) entra no repositório.
+# Rascunhos com dados pessoais ficam fora.
 cv/*.pdf
 !cv/curriculo-lucca-oliveira-silva.pdf
