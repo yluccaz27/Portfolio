@@ -1,9 +1,49 @@
+# Configuração local do Claude Code
 .claude/
+
+# Sistema operacional e editor
 .DS_Store
 Thumbs.db
+desktop.ini
+.vscode/
+.idea/
+*.swp
+
+# Saída local do build do GitHub Pages
 _site/
 
 # Só o currículo publicado (sem telefone e endereço) entra no repositório.
 # Rascunhos com dados pessoais ficam fora.
 cv/*.pdf
 !cv/curriculo-lucca-oliveira-silva.pdf
+cv/*.docx
+cv/*.odt
+
+# Prints originais, sem recorte. Podem mostrar hostname, IP, usuário ou
+# caminho privado. Só a versão revisada, em assets/img/projetos/, é versionada.
+/*.png
+/*.jpg
+/*.jpeg
+/*.webp
+/*.gif
+/prints/
+/rascunhos/
+
+# Segredos e credenciais (nunca devem ir para o repositório)
+.env
+.env.*
+secrets/
+rclone.conf
+*.pem
+*.key
+*.p12
+*.pfx
+id_rsa*
+id_ed25519*
+credentials*.json
+client_secret*.json
+token*.json
+
+# Python (servidor local)
+__pycache__/
+*.pyc
