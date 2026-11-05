@@ -1,0 +1,88 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 820" width="360" height="820" role="img" aria-labelledby="t d">
+  <title id="t">Fluxo do ArchiveServer</title>
+  <desc id="d">O PC com Windows copia arquivos pela rede local para o compartilhamento Samba do servidor Linux. O Samba compartilha um mount FUSE do container rclone, que usa um cache VFS limitado no SSD e envia os arquivos em segundo plano para uma única pasta do Google Drive. O painel Flask consulta a API de controle do rclone, que só existe na rede interna do Docker Compose.</desc>
+  <style>
+    text { font-family: "Alegreya Sans", "Segoe UI", system-ui, sans-serif; font-size: 15px; fill: #E6DCC8; }
+    .ent { font-size: 18px; font-weight: 700; fill: #B8964E; }
+    .rel { font-size: 14px; fill: #B9AE9C; }
+    .interna { font-size: 13px; font-weight: 700; fill: #5E8C7E; }
+    .caixa { fill: #1E1414; stroke: #5A4540; stroke-width: 1; }
+    .cab { fill: #271A19; }
+    .linha { stroke: #8C8073; stroke-width: 1.25; fill: none; }
+    .servidor { fill: none; stroke: #3A2B28; stroke-width: 1; }
+    .compose { fill: none; stroke: #5E8C7E; stroke-width: 1; stroke-dasharray: 5 4; }
+  </style>
+  <rect width="360" height="820" fill="#1E1414"/>
+
+  <!-- PC -->
+  <rect class="caixa" x="34.5" y="20.5" width="291" height="70"/>
+  <rect class="cab" x="35" y="21" width="290" height="33"/>
+  <text class="ent" x="50" y="44">PC com Windows</text>
+  <text x="50" y="76">unidade de rede mapeada</text>
+
+  <!-- PC -> Samba -->
+  <path class="linha" d="M172 91 V160"/>
+  <path class="linha" d="M162 150 L172 160 L182 150"/>
+  <text class="rel" x="184" y="114">cópia pela LAN</text>
+
+  <!-- Servidor -->
+  <rect class="servidor" x="10.5" y="124.5" width="339" height="568"/>
+  <text class="rel" x="24" y="146">Servidor Linux, SSD de 120 GB</text>
+
+  <!-- Samba -->
+  <rect class="caixa" x="34.5" y="160.5" width="275" height="70"/>
+  <rect class="cab" x="35" y="161" width="274" height="33"/>
+  <text class="ent" x="50" y="184">Samba, no host</text>
+  <text x="50" y="216">compartilha a pasta montada</text>
+
+  <!-- Samba -> rclone -->
+  <path class="linha" d="M172 231 V290"/>
+  <path class="linha" d="M162 280 L172 290 L182 280"/>
+  <text class="rel" x="184" y="246">FUSE</text>
+
+  <!-- Rede interna do Docker Compose -->
+  <rect class="compose" x="18.5" y="252.5" width="323" height="314"/>
+  <text class="interna" x="333" y="273" text-anchor="end">rede interna do compose</text>
+
+  <!-- rclone -->
+  <rect class="caixa" x="34.5" y="290.5" width="275" height="114"/>
+  <rect class="cab" x="35" y="291" width="274" height="33"/>
+  <text class="ent" x="50" y="314">rclone, em container</text>
+  <text x="50" y="346">monta uma pasta do Drive</text>
+  <text x="50" y="368">API de controle sem porta</text>
+  <text x="50" y="390">publicada no host</text>
+
+  <!-- Painel -> API do rclone -->
+  <path class="linha" d="M172 460 V405"/>
+  <path class="linha" d="M162 415 L172 405 L182 415"/>
+  <text class="rel" x="184" y="437">consulta a API</text>
+
+  <!-- Painel -->
+  <rect class="caixa" x="34.5" y="460.5" width="275" height="92"/>
+  <rect class="cab" x="35" y="461" width="274" height="33"/>
+  <text class="ent" x="50" y="484">Painel, Flask + gunicorn</text>
+  <text x="50" y="516">somente leitura, a cada 5 s</text>
+  <text x="50" y="538">não-root, ouve só na LAN</text>
+
+  <!-- rclone -> cache (pela esquerda) -->
+  <path class="linha" d="M34 362 H26 V632 H34"/>
+  <path class="linha" d="M26 622 L34 632 L26 642"/>
+
+  <!-- Cache -->
+  <rect class="caixa" x="34.5" y="586.5" width="275" height="92"/>
+  <rect class="cab" x="35" y="587" width="274" height="33"/>
+  <text class="ent" x="50" y="610">Cache VFS no SSD</text>
+  <text x="50" y="642">limite de 40 GB</text>
+  <text x="50" y="664">e espaço livre mínimo</text>
+
+  <!-- rclone -> Drive (pela direita) -->
+  <path class="linha" d="M310 334 H325 V730"/>
+  <path class="linha" d="M315 720 L325 730 L335 720"/>
+  <text class="rel" x="316" y="716" text-anchor="end">envio em segundo plano</text>
+
+  <!-- Google Drive -->
+  <rect class="caixa" x="34.5" y="730.5" width="305" height="70"/>
+  <rect class="cab" x="35" y="731" width="304" height="33"/>
+  <text class="ent" x="50" y="754">Google Drive</text>
+  <text x="50" y="786">só uma pasta (root_folder_id)</text>
+</svg>

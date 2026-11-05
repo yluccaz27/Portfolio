@@ -33,6 +33,49 @@
       "imagens": []
     },
     {
+      "id": "archiveserver",
+      "nome": "ArchiveServer",
+      "contexto": "Projeto pessoal, em uso no meu homelab",
+      "problema": "Meu homelab, um servidor Linux com SSD de 120 GB, não tinha espaço para as imagens e os vídeos dos meus projetos criativos. Eu queria salvar tudo em casa pela rede local e usar o Google Drive como armazenamento, sem abrir o Drive direto.",
+      "oQueFaz": "Servidor de arquivos com nuvem. No Windows, a pasta aparece como unidade de rede (Samba); por trás, é um mount do rclone sobre uma pasta do Google Drive. A cópia do PC roda toda na LAN e o envio para o Drive acontece em segundo plano. Um painel web somente leitura mostra o estado do mount, a cota da nuvem, o uso do SSD, o cache, a fila de upload e as transferências.",
+      "stack": ["Python", "Flask", "gunicorn", "JavaScript", "Docker Compose", "rclone", "Samba", "OAuth 2.0", "Linux"],
+      "decisoes": [
+        "Docker Compose com dois serviços: `rclone`, que monta uma pasta do Drive como disco, com cache local limitado, e `painel`, em Flask com gunicorn e front-end em HTML, CSS e JavaScript puros, sem CDN.",
+        "O cache que planejei, de 60 GB, não cabia no SSD. Limitei a 40 GB e usei `--vfs-cache-min-free-space` como rede de segurança para o disco não encher.",
+        "Testei em ambiente isolado e achei dois bugs no mount. O rclone entrava em loop de restart (`directory already mounted`) por causa do bind do Docker. E, depois de um crash, o mount ficava preso no host (`Transport endpoint is not connected`) e o container não voltava. Corrigi montando a pasta-pai e limpando mounts presos no entrypoint, e validei a recuperação derrubando o processo com SIGKILL.",
+        "A API de controle do rclone não tem porta publicada no host: só existe na rede interna do compose. Usuário e senha ficam em arquivos de segredo e não aparecem no `docker inspect`. O painel escuta só na interface da LAN e roda como usuário não-root.",
+        "O remote do Drive é limitado a uma pasta (`root_folder_id`), para o servidor não expor o Drive inteiro.",
+        "O painel atualiza a cada 5 segundos e trata erro por card: se um bloco falha, os outros continuam.",
+        "Modo mock (`RCLONE_MOCK=1`) para desenvolver o painel sem o rclone rodando.",
+        "O servidor não tem navegador, então gerei o token do Drive no PC com `rclone authorize`.",
+        "Construí o projeto com ajuda do Claude Code, sob a minha direção: defini o objetivo e a arquitetura, configurei o servidor, fiz a autenticação do Drive, testei no servidor real e depurei os problemas. Na limpeza do servidor por SSH, deixei o Claude Code em modo só leitura e decidi item a item o que apagar."
+      ],
+      "diagrama": {
+        "src": "assets/img/projetos/archiveserver-fluxo.svg",
+        "alt": "Fluxo do ArchiveServer. O PC com Windows copia arquivos pela rede local para o Samba do servidor Linux. O Samba compartilha o mount FUSE do container rclone, que usa um cache no SSD limitado a 40 GB e envia os arquivos em segundo plano para uma única pasta do Google Drive. O painel Flask consulta a API do rclone, que só existe na rede interna do Docker Compose.",
+        "legenda": "Fluxo dos arquivos. O contorno tracejado é a rede interna do compose: a API de controle do rclone não sai dela.",
+        "largura": 360,
+        "altura": 820
+      },
+      "comoRodar": "# Só o painel, com dados falsos (sem rclone nem Drive)\ngit clone https://github.com/yluccaz27/ArchiveServer.git\ncd ArchiveServer/painel\npip install -r requirements.txt\nRCLONE_MOCK=1 python app.py   # abre em http://localhost:8080\n\n# Servidor completo: passo a passo no README do repositório",
+      "aprendizados": [
+        "Na primeira noite em uso, o card de cota ficou vermelho com `unauthorized_client`. O token tinha sido gerado com um client OAuth diferente do que estava no config, e o Google recusava a renovação. Aprendi que o access token dura uma hora e que é o refresh token que renova o acesso sozinho, desde que gerado com o mesmo client_id e secret do config. Resolvi refazendo a autorização.",
+        "Derrubar o processo de propósito mostrou falhas de recuperação que o uso normal não teria mostrado."
+      ],
+      "imagens": [
+        {
+          "src": "assets/img/projetos/archiveserver-painel.webp",
+          "alt": "Painel de status do ArchiveServer com três cards ligados por setas. Cache no SSD: 5,2 GB de 40,0 GB, 362 arquivos no cache. Fila de upload: 301 arquivos aguardando, 4 subindo agora. Nuvem: 4,5 GB de 400 GB, 382 GB livres.",
+          "legenda": "Painel de status durante um teste de envio de imagens.",
+          "largura": 1183,
+          "altura": 201
+        }
+      ],
+      "links": {
+        "repositorio": "https://github.com/yluccaz27/ArchiveServer"
+      }
+    },
+    {
       "id": "mestre-de-rpg-ia",
       "nome": "Mestre de RPG com IA",
       "contexto": "Projeto pessoal, self-hosted",
